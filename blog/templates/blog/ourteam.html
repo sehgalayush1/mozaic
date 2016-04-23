@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOZAIC</title>
+
+  <!-- Material Design Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  {% load staticfiles %}
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'blog/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Material Design Bootstrap -->
+  <link href="{% static 'blog/css/mdb.css' %}" rel="stylesheet">
+
+  <!-- Template style -->
+  <link href="{% static 'blog/css/style2.css' %}" rel="stylesheet">
+  <link href="{% static 'blog/css/agency.css' %}" rel="stylesheet">
+
+  <!-- Pageloader style -->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/style1.css' %}">
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar z-depth-2 info-color">
+    <div class="container ">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand waves-effect waves-light" href="{% url 'blog:index' %}" style="font-weight: 500; font-size: 24px;" >MOZAIC</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{% url 'blog:index' %}" class="waves-effect waves-light" style="font-weight: 400;">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li>
+            <a href="{% url 'blog:ourteam' %}" class="waves-effect waves-light" style="font-weight: 400;">Our Team <span class="sr-only">(current)</span></a>
+          </li>
+          <li><a href="{% url 'blog:contact_us' %}" class="waves-effect waves-light" style="font-weight: 400;">Contact Us <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" role="button" aria-expanded="false" style="font-weight: 400;">Cateogries <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                {% if category_list %}
+                  {% for category in category_list %}
+                  <li>
+                    <a href="{% url 'blog:category' category.category_name %}">{{ category.category_name }}</a>
+                  </li>
+                  {% endfor %}
+                {% else %}
+                  <p>No Categories Available. </p>
+                {% endif %}
+              
+            </ul>
+          </li>
+
+        </ul>
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Full Width Image Header -->
+  <header class="header-image">
+    <div class="headline">
+      <div class="container">
+        <h1 style="font-weight: 300;">OUR TEAM</h1>
+        <h2 style="font-weight: 200; font-size: 40px;">made with love</h2>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <section>
+  <div class="container">
+    <div class="row">
+                <div class="col-lg-12">
+                    <ul class="timeline">
+                    {% if author_list %}
+                    {% for author in author_list %}
+                      {% if forloop.counter|divisibleby:2 %}  
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="{{ MEDIA_URL }}{{ author.author_image }}" alt="">
+                            </div>
+                            <br /><br /><br />
+                            <div class="timeline-panel">
+                                <div class="timeline-heading wow fadeInLeft">
+                                    <h4 class="subheading" style="font-size: 28px;">{{ author.author_name }}</h4>
+                                </div>
+                            </div>
+                        </li>
+                      {% else %}
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="{{ MEDIA_URL }}{{ author.author_image }}" alt="">
+                            </div>
+                            <br /><br /><br />
+                            <div class="timeline-panel">
+                                <div class="timeline-heading wow fadeInRight">
+                                    <h4 class="subheading" style="font-size: 28px;">{{ author.author_name }}</h4>
+                                </div>
+                            </div>
+                        </li>
+                      {% endif %}
+                    {% endfor %}    
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <h4>Be Part
+                                    <br>Of Our
+                                    <br>Story!</h4>
+                            </div>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </div>
+    </div>
+  </div>
+  </section>
+  <!-- /.container -->
+
+
+
+
+  <!-- Footer -->
+  <footer class="page-footer info-color darken-1" if="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-md-offset-3">
+          <p class="white-text center-on-small-only">GET STARTED</p>
+          <ul>
+            <li><a href="{% url 'blog:index' %}" data-toggle="modal" data-target="#myModal" class="grey-text text-lighten-3" href="#!">HOME</a>
+            </li>
+            <li><a class="grey-text text-lighten-3" href="{% url 'blog:ourteam' %}">OUR TEAM</a>
+            <li><a class="grey-text text-lighten-3" href="{% url 'blog:contact_us' %}">CONTACT US</a>
+            </li>
+           </ul>
+
+        </div>
+        <hr class="hidden-lg hidden-md">
+
+        
+        <hr class="hidden-lg hidden-md">
+
+        <div class="col-md-3 text-center">
+          <p class="white-text text-center"> SOCIAL MEDIA</p>
+          <a target="_blank" href="https://www.facebook.com/mdbootstrap" class="btn-floating btn-large fb-bg waves-effect waves-light"><i class="fa fa-facebook"> </i></a>
+          <a target="_blank" href="https://twitter.com/MDBootstrap" class="btn-floating btn-large tw-bg waves-effect waves-light"><i class="fa fa-twitter"> </i></a>
+          <a target="_blank" href="https://plus.google.com/u/0/b/107863090883699620484/107863090883699620484/posts" class="btn-floating btn-large gplus-bg waves-effect waves-light"><i class="fa fa-google-plus"> </i></a>
+        </div>
+
+        <hr class="hidden-lg hidden-md">
+
+        
+        <hr class="hidden-lg hidden-md">
+
+        <br /><br />
+        <div class="col-md-3 text-center">
+          <a class="waves-effect waves-light btn orange darken-2" href="{% url 'blog:contact_us' %}">CONTACT US !</a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="footer-copyright">
+      <div class="container">
+        <div class="col-md-10 col-md-offset-3"> © 2016 Copyright <a href="http://www.MDBootstrap.com">MOZAIC </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- SCRIPTS -->
+
+  <!-- JQuery -->
+  <script type="text/javascript" src="{% static 'blog/js/jquery.min.js' %}"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+
+  <!-- Material Design Bootstrap -->
+  <script type="text/javascript" src="{% static 'blog/js/mdb.js' %}"></script>
+  
+  <!-- Pageloader JS -->
+  <script type="text/javascript" href="{% static 'blog/js/style.js' %}"></script>
+  <script type="text/javascript" href="{% static 'blog/js/agency.js' %}"></script>
+
+  <script type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+  <script>
+    new WOW().init();
+  </script>
+
+
+</body>
+
+</html>

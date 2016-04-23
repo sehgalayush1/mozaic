@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" class="js">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOZAIC</title>
+
+  <!-- Material Design Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  {% load staticfiles %}
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'blog/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Material Design Bootstrap -->
+  <link href="{% static 'blog/css/mdb.css' %}" rel="stylesheet">
+
+  <!-- Template style -->
+  <link href="{% static 'blog/css/style.css' %}" rel="stylesheet">
+
+  <!-- Pageloader style -->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/style1.css' %}">
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+
+</head>
+
+<body>
+  
+  <!-- Page Loader -->
+
+  <!-- Navigation -->
+  <nav class="navbar z-depth-2 info-color">
+    <div class="container ">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand waves-effect waves-light" href="{% url 'blog:index' %}" style="font-weight: 500; font-size: 24px;" >MOZAIC</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{% url 'blog:index' %}" class="waves-effect waves-light" style="font-weight: 400;">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li>
+            <a href="{% url 'blog:ourteam' %}" class="waves-effect waves-light" style="font-weight: 400;">Our Team <span class="sr-only">(current)</span></a>
+          </li>
+          <li><a href="{% url 'blog:contact_us' %}" class="waves-effect waves-light" style="font-weight: 400;">Contact Us <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" role="button" aria-expanded="false" style="font-weight: 400;">Cateogries <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                {% if category_list %}
+                  {% for category in category_list %}
+                  <li>
+                    <a href="{% url 'blog:category' category.category_name %}">{{ category.category_name }}</a>
+                  </li>
+                  {% endfor %}
+                {% else %}
+                  <p>No Categories Available. </p>
+                {% endif %}
+              
+            </ul>
+          </li>
+
+        </ul>
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+      <!-- Blog Entries Column -->
+      <div class="col-md-8">
+
+        <h1 class="page-header">
+                    MOZAIC
+                    <br />
+                    <small style="font-size: 30px;">A CULTURAL BLOG </small>
+        </h1>
+
+        <!-- First Blog Post -->
+        {% if post_list %}
+          {% for post in post_list %}  
+                <div class="wow fadeInUp">
+                  <h2>
+      		                    <a href="{% url 'blog:post' post.id %}">{{ post.title }}</a>
+      		                </h2>
+      		        <p class="lead">
+      		          by {{ post.author }}
+      		        </p>
+      		        <p> Posted on {{ post.pub_date }}</p>
+      		        <hr>
+                      <img class="img-responsive z-depth-2" src="{{ MEDIA_URL }}{{ post.image }}" alt="">
+      		        <hr>
+      		        <p>{{ post.article|truncatewords:30 }}</p>
+      		        <a href="{% url 'blog:post' post.id %}">
+      		          <button type="button" class="btn btn-info waves-effect waves-light">Read more</button>
+      		        </a>
+                </div>
+    		        <hr>
+          {% endfor %}
+        {% else %}
+          <p>No posts to show</p>
+        {% endif %}
+
+        <!-- Pager -->
+          <ul class="pager">
+            <li class="previous">
+              {% if post_list.has_previous %}
+              <a href="?page={{ post_list.previous_page_number }}">&larr; Newer</a>
+              {% endif %}
+            </li>
+            <li class="next">
+              {% if post_list.has_next %}
+                <a href="?page={{ post_list.next_page_number }}">Older &rarr;</a>
+              {% endif %}
+            </li>
+          </ul>
+
+      </div>
+
+      <!-- Blog Sidebar Widgets Column -->
+      <div class="col-md-4">
+        <div class="sidebar">
+          <!-- Blog Search Well -->
+
+          <br>
+          <!-- Category widget -->
+          <h4>Categories</h4>
+          <div class="collection">
+                {% if category_list %}
+                  {% for category in category_list %}
+                  <a href="{% url 'blog:category' category.category_name %}" class="collection-item">{{ category.category_name }}</a>
+                  {% endfor %}
+                {% else %}
+                  <p>No Categories Available. </p>
+                {% endif %}
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <hr>
+
+  </div>
+  <!-- /.container -->
+
+
+  <footer class="page-footer info-color darken-1" if="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-md-offset-3">
+          <p class="white-text center-on-small-only">GET STARTED</p>
+          <ul>
+            <li><a href="{% url 'blog:index' %}" data-toggle="modal" data-target="#myModal" class="grey-text text-lighten-3" href="#!">HOME</a>
+            </li>
+            <li><a class="grey-text text-lighten-3" href="{% url 'blog:ourteam' %}">OUR TEAM</a>
+            <li><a class="grey-text text-lighten-3" href="{% url 'blog:contact_us' %}">CONTACT US</a>
+            </li>
+           </ul>
+
+        </div>
+        <hr class="hidden-lg hidden-md">
+
+        
+        <hr class="hidden-lg hidden-md">
+
+        <div class="col-md-3 text-center">
+          <p class="white-text text-center"> SOCIAL MEDIA</p>
+          <a target="_blank" href="https://www.facebook.com/mdbootstrap" class="btn-floating btn-large fb-bg waves-effect waves-light"><i class="fa fa-facebook"> </i></a>
+          <a target="_blank" href="https://twitter.com/MDBootstrap" class="btn-floating btn-large tw-bg waves-effect waves-light"><i class="fa fa-twitter"> </i></a>
+          <a target="_blank" href="https://plus.google.com/u/0/b/107863090883699620484/107863090883699620484/posts" class="btn-floating btn-large gplus-bg waves-effect waves-light"><i class="fa fa-google-plus"> </i></a>
+        </div>
+
+        <hr class="hidden-lg hidden-md">
+
+        
+        <hr class="hidden-lg hidden-md">
+
+        <br /><br />
+        <div class="col-md-3 text-center">
+          <a class="waves-effect waves-light btn orange darken-2" href="{% url 'blog:contact_us' %}">CONTACT US !</a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="footer-copyright">
+      <div class="container">
+        <div class="col-md-10 col-md-offset-3"> © 2016 Copyright <a href="http://www.MDBootstrap.com">MOZAIC </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- SCRIPTS -->
+
+  <!-- JQuery -->
+  <script type="text/javascript" src="{% static 'blog/js/jquery.min.js' %}"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+
+  <!-- Material Design Bootstrap -->
+  <script type="text/javascript" src="{% static 'blog/js/mdb.js' %}"></script>
+  
+  <!-- Pageloader JS -->
+  <script type="text/javascript" href="{% static 'blog/js/style.js' %}"></script>
+
+  <script type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+  <script>
+    new WOW().init();
+  </script>
+
+
+</body>
+
+</html>
